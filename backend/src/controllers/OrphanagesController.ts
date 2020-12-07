@@ -1,9 +1,8 @@
-import {Request, Response} from 'express'
-import { getRepository } from 'typeorm'
+import {Request, Response} from 'express';
+import { getRepository } from 'typeorm';
 import Orphanage from '../models/Orphanage';
 import orphanageView from '../views/orphanages_view';
 import * as Yup from 'yup'; 
-
 
 export default {
     async index(req: Request, res: Response){
@@ -11,7 +10,7 @@ export default {
       
       const orphanages = await orphanagesRepository.find({
         relations:['images']
-      }); 
+      });
 
       return res.json(orphanageView.renderMany(orphanages)); 
     },
@@ -30,8 +29,6 @@ export default {
     }, 
 
     async create(req: Request, res: Response){
-
-      console.log(req.files);
 
       const {
         name,
@@ -63,7 +60,7 @@ export default {
 
       const schema = Yup.object().shape({
         name: Yup.string().required(),
-        latitude: Yup.number().required().required(),
+        latitude: Yup.number().required(),
         longitude: Yup.number().required(),
         about: Yup.string().required().max(300),
         instructions: Yup.string().required(),
@@ -83,5 +80,5 @@ export default {
       await orphanagesRepository.save(orphanage);
     
       return res.status(201).json(orphanage);
-    }
+    },
 };

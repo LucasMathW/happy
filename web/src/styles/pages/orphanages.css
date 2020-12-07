@@ -8,7 +8,7 @@
 
 #page-map aside{
   width: 440px;
-  background: linear-gradient(329.54deg, #29B6D1 0%, #00C7C7 100%);
+  background: linear-gradient(329.54deg, #0b6e6e 0%, #00C7C7 100%);
   padding: 80px;
 
   display: flex;
@@ -54,7 +54,7 @@
   width: 64px;
   height: 64px;
 
-  background: #15c3d3;
+  background: #0b6e6e;
   border-radius: 20px;
 
   display:  flex;

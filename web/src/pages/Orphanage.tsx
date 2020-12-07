@@ -2,7 +2,7 @@ import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { FiClock, FiInfo } from "react-icons/fi";
 import { Map, Marker, TileLayer } from "react-leaflet";
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import '../styles/pages/orphanage.css';
 import Sidebar from "../components/Sidebar";
@@ -93,7 +93,7 @@ export default function Orphanage() {
               </Map>
 
               <footer>
-                <a target="_blank" rel="noopner noreferrer" href={`https://www.google.com/maps/dir/?api=1&destination=${orphanage.latitude},${orphanage.longitude}`}>Ver rotas no Google Maps</a>
+                <a target="t-blank" rel="noopner noreferrer" href={`https://www.google.com/maps/dir/?api=1&destination=${orphanage.latitude},${orphanage.longitude}`}>Ver rotas no Google Maps</a>
               </footer>
             </div>
             <hr/>
