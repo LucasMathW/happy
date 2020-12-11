@@ -12,5 +12,9 @@ export default class users {
   e_mail: string;
 
   @Column()
-  password: string;  
+  password: string;
+  
+  @Column()
+  passwordHash: string;
+  
 }

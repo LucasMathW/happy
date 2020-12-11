@@ -24,7 +24,11 @@ export class createUser1607369702616 implements MigrationInterface {
                 },
                 {
                     name: 'password',
-                    type:  'integer'    
+                    type:  'integer'   
+                },
+                {
+                    name: 'passwordHash',
+                    type: 'string'
                 }
             ]
 
