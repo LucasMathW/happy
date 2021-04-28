@@ -1,23 +1,25 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn} from "typeorm";
+import {
+  Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn,
+} from 'typeorm';
 import Image from './Images';
 
 @Entity('Orphanages')
-export default class Orphanages{
+export default class Orphanages {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column()
-  name: string; 
-  
+  name: string;
+
   @Column()
   latitude: number;
- 
+
   @Column()
   longitude: number;
-  
+
   @Column()
   about: number;
-  
+
   @Column()
   instructions: string;
 
@@ -27,10 +29,9 @@ export default class Orphanages{
   @Column()
   open_on_weekends: boolean;
 
-  @OneToMany(() => Image, image => image.orphanage, {
-    cascade: ['insert', 'update']
+  @OneToMany(() => Image, (image) => image.orphanage, {
+    cascade: ['insert', 'update'],
   })
   @JoinColumn({ name: 'orphanage_id' })
   images: Image[];
-
 }

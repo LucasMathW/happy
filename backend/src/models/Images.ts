@@ -1,5 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
-import Orphanage from "./Orphanage";
+import {
+  Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn,
+} from 'typeorm';
+import Orphanage from './Orphanage';
 
 @Entity('Images')
 export default class Image {
@@ -8,9 +10,8 @@ export default class Image {
 
   @Column()
   path: string;
-  
-  @ManyToOne(() => Orphanage, orphanage => orphanage.images)
-  @JoinColumn({ name: 'orphanage_id'})
+
+  @ManyToOne(() => Orphanage, (orphanage) => orphanage.images)
+  @JoinColumn({ name: 'orphanage_id' })
   orphanage: Orphanage;
-  
 }

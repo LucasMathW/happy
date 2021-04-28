@@ -1,6 +1,5 @@
-import {Request, Response, NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { string } from 'yup';
 
 interface TokenPayload {
   id: string;
@@ -8,12 +7,14 @@ interface TokenPayload {
   exp: number;
 }
 
-export default function authMiddleware( 
-  request: Request, response: Response, next: NextFunction 
+export default function authMiddleware(
+  request: Request,
+  response: Response,
+  next: NextFunction,
 ) {
   const { authorization } = request.headers;
-   
-  if(!authorization){
+
+  if (!authorization) {
     response.sendStatus(401);
   }
 
@@ -21,15 +22,14 @@ export default function authMiddleware(
 
   const token = String(token1);
 
-  try{
-     const data = jwt.verify(token, 'secret');
-     
-     const {id} = data as TokenPayload;
+  try {
+    const data = jwt.verify(token, 'secret');
 
-     request.userId = id;
+    const { id } = data as TokenPayload;
 
-     return next();
-     
+    request.userId = id;
+
+    return next();
   } catch {
     return response.sendStatus(401);
   }

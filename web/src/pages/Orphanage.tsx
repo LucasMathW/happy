@@ -56,29 +56,29 @@ export default function Orphanage() {
             {
               orphanage.images.map((image, index) => {
                 return (
-                  <button 
-                  key={image.id} 
-                  className={indexActiveImage === index ? 'active' : ''} 
+                  <button
+                  key={image.id}
+                  className={indexActiveImage === index ? 'active' : ''}
                   type="button"
                   onClick={()=>{
                       setIndexActiveImage(index)
-                  }}  
+                  }}
                   >
                   <img src={image.url} alt={orphanage.name} />
                   </button>
                 );
               })
-            } 
+            }
           </div>
-          
+
           <div className="orphanage-details-content">
             <h1>{orphanage.name}</h1>
             <p>{orphanage.about}</p>
 
             <div className="map-container">
-              <Map 
-                center={[orphanage.latitude, orphanage.longitude]} 
-                zoom={16} 
+              <Map
+                center={[orphanage.latitude, orphanage.longitude]}
+                zoom={16}
                 style={{ width: '100%', height: 280 }}
                 dragging={false}
                 touchZoom={false}
@@ -86,7 +86,7 @@ export default function Orphanage() {
                 scrollWheelZoom={false}
                 doubleClickZoom={false}
               >
-                <TileLayer 
+                <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
                 />
                 <Marker interactive={false} icon={mapIcon} position={[orphanage.latitude, orphanage.longitude]} />
