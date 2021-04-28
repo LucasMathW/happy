@@ -19,6 +19,7 @@ routes.get('/orphanages/:id', OrphanagesController.show);
 // Rotas de Usuários
 routes.post('/users', UsersController.create);
 routes.post('/auth', AuthController.autencicateUser);
+routes.post('/forgot_password', AuthController.forgotPassword )
 routes.get('/users', authMiddleware, UsersController.index);
 
 export default routes;

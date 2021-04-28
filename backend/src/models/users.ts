@@ -21,6 +21,12 @@ export default class users {
   @Column()
   password: string;
 
+  @Column()
+  passwordResetToken: string;
+
+  @Column()
+  passwordResetHours: Date;
+
   @BeforeInsert()
   @BeforeUpdate()
   passwordHash() {

@@ -5,6 +5,7 @@ import { getRepository } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import users from '../models/users';
+import crypto from 'crypto';
 
 interface User {
   e_mail: string;
@@ -40,4 +41,19 @@ export default {
       token,
     });
   },
+
+  async forgotPassword(request: Request, response: Response){
+    const {e_mail} = request.body
+
+    const usersRepository = getRepository(users);
+    const user = usersRepository.findOne({where: {e_mail}});
+
+    if(!user){
+      return response.status(409).json({ message: 'Usuário não encontrado'});
+    }
+    const token = crypto.randomBytes(20).toString('hex');
+    const now = new Date();
+    now.setHours(now.getHours() + 1)
+
+  }
 };

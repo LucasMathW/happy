@@ -1,12 +1,11 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 // eslint-disable-next-line import/prefer-default-export
-export class createOrphanage1602636142987 implements MigrationInterface {
+export default class createOrphanage1602636142987 implements MigrationInterface {
   // eslint-disable-next-line class-methods-use-this
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(new Table({
       name: 'orphanages',
-
       columns: [
         {
           name: 'id',
@@ -48,7 +47,7 @@ export class createOrphanage1602636142987 implements MigrationInterface {
           name: 'open_on_weekends',
           type: 'boolean',
           default: false,
-        },
+        }
       ],
     }));
   }
