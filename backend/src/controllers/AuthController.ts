@@ -84,19 +84,29 @@ export default {
 
     const userExists = await usersRepository.findOne({where :{ e_mail }})
 
-    if(!userExists){
+    if(!userExists)
       return response.status(409).json('Não existe usuário com esse email')
-    }
 
-    if(token !== userExists.PasswordResetToken){
+    if(token !== userExists.PasswordResetToken)
       return response.status(409).json('O token é inválido!')
-    }
+
+    const now = new Date()
+
+    if(userExists.PasswordResetExpires < now )
+      return response.status(401).json('O token expirou, emita um novo token e tente outra avez');
+
+    if(await bcrypt.compare(password, userExists.password))
+      return response.status(409).json('Tente uma senha diferente da anterior')
 
     userExists.password = password
 
     const user = await usersRepository.save(userExists)
 
-    return response.status(201).json(user);
+    delete user.PasswordResetToken
+    delete user.PasswordResetExpires
+    delete user.password
+
+    return response.status(201).json('Senha alterada com sucesso, faça o  loguin usando a sua nova senha!');
 
   }
 };
