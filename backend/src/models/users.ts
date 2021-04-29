@@ -22,10 +22,10 @@ export default class users {
   password: string;
 
   @Column()
-  passwordResetToken: string;
+  PasswordResetToken: string;
 
   @Column()
-  passwordResetHours: Date;
+  PasswordResetExpires: Date;
 
   @BeforeInsert()
   @BeforeUpdate()

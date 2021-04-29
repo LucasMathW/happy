@@ -1,16 +1,18 @@
-import {MigrationInterface, QueryRunner, TableColumn} from "typeorm";
+import {IsNull, MigrationInterface, QueryRunner, TableColumn} from "typeorm";
 
 export default class AddPasswordResetTokenAndPasswordResetHoursToUsers1619639581596 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumns(
       'users', [
         new TableColumn({
-          name : 'resetPasswordToken',
-          type: 'string'
+          name : 'PasswordResetToken',
+          type: 'varchar',
+          isNullable: true
         }),
         new TableColumn({
-          name : 'resetPasswordHours',
-          type: 'date'
+          name : 'PasswordResetExpires',
+          type: 'date',
+          isNullable: true
         })
       ]
     )
@@ -19,12 +21,15 @@ export default class AddPasswordResetTokenAndPasswordResetHoursToUsers1619639581
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropColumns('users', [
       new TableColumn({
-        name : 'resetPasswordHours',
-        type: 'date'
+        name : 'PasswordResetExpires',
+        type: 'date',
+        isNullable: true
+
       }),
       new TableColumn({
-        name : 'resetPasswordToken',
-        type: 'string'
+        name : 'PasswordResetToken',
+        type: 'string',
+        isNullable: true
       })
     ])
   }

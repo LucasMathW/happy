@@ -1,11 +1,13 @@
 import 'dotenv/config';
 
 import { Response, Request } from 'express';
-import { getRepository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import users from '../models/users';
 import crypto from 'crypto';
+import {resolve} from 'path'
+import sendMailService from '../service/sendMailService'
 
 interface User {
   e_mail: string;
@@ -13,7 +15,7 @@ interface User {
 }
 
 export default {
-  async autencicateUser(request: Request, response: Response) {
+  async authenticateUser(request: Request, response: Response) {
     const { e_mail, password } = request.body;
 
     const usersRepository = getRepository(users);
@@ -46,14 +48,55 @@ export default {
     const {e_mail} = request.body
 
     const usersRepository = getRepository(users);
-    const user = usersRepository.findOne({where: {e_mail}});
+    const user = await usersRepository.findOne({where: {e_mail}});
 
     if(!user){
       return response.status(409).json({ message: 'Usuário não encontrado'});
     }
+
     const token = crypto.randomBytes(20).toString('hex');
     const now = new Date();
     now.setHours(now.getHours() + 1)
+
+   user.PasswordResetToken = token,
+   user.PasswordResetExpires = now
+
+   await usersRepository.save(user)
+
+   const resetPath = resolve(__dirname, '..', "views", "emails", "index.hbs")
+
+   const variables ={
+     id: user.id,
+     name : user.name,
+     token: user.PasswordResetToken,
+   }
+
+   await sendMailService.execute(e_mail, user.name, variables, resetPath)
+
+   return response.status(200).json('Acesse seu email para ter acesso ao token')
+
+  },
+
+  async resetPassword(request: Request, response: Response){
+    const {e_mail, token, password} = request.body;
+    console.log(e_mail)
+    const usersRepository = getRepository(users);
+
+    const userExists = await usersRepository.findOne({where :{ e_mail }})
+
+    if(!userExists){
+      return response.status(409).json('Não existe usuário com esse email')
+    }
+
+    if(token !== userExists.PasswordResetToken){
+      return response.status(409).json('O token é inválido!')
+    }
+
+    userExists.password = password
+
+    const user = await usersRepository.save(userExists)
+
+    return response.status(201).json(user);
 
   }
 };
