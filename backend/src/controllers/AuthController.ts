@@ -22,15 +22,13 @@ export default {
 
     const isUser = await usersRepository.findOne({ where: { e_mail } });
 
-    if (!isUser) {
+    if (!isUser)
       return response.status(409).json({ message: 'usuário não encontrado!' });
-    }
 
     const validatePassword = await bcrypt.compare(password, isUser.password);
 
-    if (!validatePassword) {
-      response.status(401).json({ message: 'Senha incorreta!!' });
-    }
+    if (!validatePassword)
+      return response.status(400).json({ message: 'Senha incorreta!!' });
 
     const token = jwt.sign({ id: isUser.id }, 'secret', { expiresIn: '7d' });
 
